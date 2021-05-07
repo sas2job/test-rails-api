@@ -22,6 +22,17 @@ module Api
         end
       end
 
+      def update
+        @user = User.find(params[:id])
+
+        if @user
+          @user.update(user_params)
+          render json: { message: 'User successfully updated.' }
+        else
+          render json: { error: 'Unable to update User.'}
+        end
+      end
+
       private
 
       def user_params
