@@ -29,7 +29,7 @@ module Api
           @user.update(user_params)
           render json: { message: 'User successfully updated.' }
         else
-          render json: { error: 'Unable to update User.'}
+          render json: { error: 'Unable to update User.' }
         end
       end
 
@@ -39,9 +39,10 @@ module Api
           @user.destroy
           render json: { message: 'User successfully deleted.' }
         else
-          render json: { error: 'Unable to delete User.'}
-        end        
+          render json: { error: 'Unable to delete User.' }
+        end
       end
+
       private
 
       def user_params
