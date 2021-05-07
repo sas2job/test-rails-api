@@ -33,6 +33,15 @@ module Api
         end
       end
 
+      def destroy
+        @user = User.find(params[:id])
+        if @user
+          @user.destroy
+          render json: { message: 'User successfully deleted.' }
+        else
+          render json: { error: 'Unable to delete User.'}
+        end        
+      end
       private
 
       def user_params
