@@ -25,7 +25,7 @@ module Api
       end
 
       def update
-        @user = User.find(params[:id])
+        @user = User.find_by(id: params[:id])
 
         if @user
           @user.update(user_params)
