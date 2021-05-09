@@ -9,16 +9,18 @@ module Api
       end
 
       def show
-        @user = User.find(params[:id])
-        render json: @user
+        user = User.find_by(id: params[:id])
+        return render json: { errors: 'User not found' }, status: 404 unless user
+
+        render json: user
       end
 
       def create
         @user = User.new(user_params)
         if @user.save
-          render json: @user
+          render json: { success: true, name: @user.name, email: @user.email }, status: 201
         else
-          render error: { error: 'Unable to create User.' }
+          render json: { error: @user.errors }, status: 422
         end
       end
 
@@ -34,7 +36,7 @@ module Api
       end
 
       def destroy
-        @user = User.find(params[:id])
+        @user = User.find_by(id: params[:id])
         if @user
           @user.destroy
           render json: { message: 'User successfully deleted.' }
