@@ -40,8 +40,10 @@ module Api
         if @user
           @user.destroy
           render json: { message: 'User successfully deleted.' }
+        elsif @user.blank?
+          render json: { errors: 'User not found.' }, status: 404
         else
-          render json: { error: 'Unable to delete User.' }
+          render json: { error: 'Unable to delete User.' }, status: 404
         end
       end
 
