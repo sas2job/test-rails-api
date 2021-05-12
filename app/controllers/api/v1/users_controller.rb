@@ -48,13 +48,14 @@ module Api
       end
 
       def login
+        return render json: { errors: 'Password is empty.' } if params[:password] == ''
+
         @user = User.find_by(email: params[:email])
-        if @user.password != params[:password]
-          render json: { errors: 'Password is not correct' }
-        elsif @user.password == params[:password]
+
+        if @user.authenticate(params[:password])
           render json: { success: true }
         else
-          render json: { error: @user.errors }
+          render json: { errors: 'Password is not correct.' }
         end
       end
 
