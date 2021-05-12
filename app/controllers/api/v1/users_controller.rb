@@ -48,9 +48,11 @@ module Api
       end
 
       def login
+        @user = User.find_by(email: params[:email])
+        return render json: { errors: 'User not found.' } if @user.class == NilClass
         return render json: { errors: 'Password is empty.' } if params[:password] == ''
 
-        @user = User.find_by(email: params[:email])
+        
 
         if @user.authenticate(params[:password])
           render json: { success: true }
