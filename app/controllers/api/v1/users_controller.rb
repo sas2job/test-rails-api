@@ -46,8 +46,8 @@ module Api
 
 			def login
 				@user = User.find_by( email: params[ :email ] )
-				return render json: { errors: 'User not found.' } if @user.instance_of?( NilClass )
-				return render json: { errors: 'Password is empty.' } if params[ :password ] == ''
+				return render json: { errors: 'User not found.' } if @user.nil?
+				return render json: { errors: 'Password is empty.' } unless params[:password].present?
 
 				if @user.authenticate( params[ :password ] )
 					render json: { success: true }
