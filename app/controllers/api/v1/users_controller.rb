@@ -10,9 +10,9 @@ module Api
 			end
 
 			def show
-				return render json: { errors: 'User not found' }, status: 404 unless user
+				ExceptionHandler.record_not_found if @user.blank?
 
-				render json: user
+				render json: @user
 			end
 
 			def create
@@ -34,11 +34,10 @@ module Api
 			end
 
 			def destroy
+				ExceptionHandler.record_not_found if @user.blank?
 				if @user
 					@user.destroy
 					render json: { message: 'User successfully deleted.' }
-				elsif @user.blank?
-					render json: { errors: 'User not found.' }, status: 404
 				else
 					render json: { error: 'Unable to delete User.' }, status: 404
 				end
@@ -47,7 +46,7 @@ module Api
 			def login
 				@user = User.find_by( email: params[ :email ] )
 				return render json: { errors: 'User not found.' } if @user.nil?
-				return render json: { errors: 'Password is empty.' } unless params[:password].present?
+				return render json: { errors: 'Password is empty.' } unless params[ :password ].present?
 
 				if @user.authenticate( params[ :password ] )
 					render json: { success: true }
@@ -63,7 +62,7 @@ module Api
 			end
 
 			def set_user
-				@user = User.find_by( id: params[ :id ] )
+				@user = User.find( id: params[ :id ] )
 			end
 		end
 	end
