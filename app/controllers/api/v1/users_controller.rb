@@ -6,7 +6,7 @@ module Api
 			before_action :set_user, only: %i[show update destroy]
 			def index
 				@users = User.all
-				render json: @users
+				render json: UserSerializer.new( @users ).serializable_hash.to_json
 			end
 
 			def show
