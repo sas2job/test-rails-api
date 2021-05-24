@@ -12,7 +12,7 @@ module Api
 			def show
 				ExceptionHandler.record_not_found if @user.blank?
 
-				render json: @user
+				render json: UserSerializer.new( @user ).serializable_hash.to_json
 			end
 
 			def create
@@ -62,7 +62,7 @@ module Api
 			end
 
 			def set_user
-				@user = User.find( id: params[ :id ] )
+				@user = User.find( params[ :id ] )
 			end
 		end
 	end
