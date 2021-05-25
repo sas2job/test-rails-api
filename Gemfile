@@ -32,6 +32,7 @@ gem 'rubocop-performance', require: false
 group :development, :test do
 	gem 'factory_bot_rails'
 	gem 'rspec-rails'
+	gem 'database_cleaner'
 	# Call 'byebug' anywhere in the code to stop execution and get a debugger console
 	gem 'byebug', platforms: %i[mri mingw x64_mingw]
 end
