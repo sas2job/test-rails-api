@@ -6,13 +6,14 @@ module Api
 			before_action :set_user, only: %i[show update destroy]
 			def index
 				@users = User.all
-				render json: UserSerializer.new( @users ).serializable_hash.to_json
+
+				render_json(@users)
 			end
 
 			def show
 				ExceptionHandler.record_not_found if @user.blank?
 
-				render json: UserSerializer.new( @user ).serializable_hash.to_json
+				render_json(@user)
 			end
 
 			def create
@@ -63,6 +64,11 @@ module Api
 
 			def set_user
 				@user = User.find( params[ :id ] )
+				ExceptionHandler.record_not_found if @user.blank?
+			end
+
+			def render_json(user)
+				render json: UserSerializer.new( user ).serializable_hash.to_json
 			end
 		end
 	end
